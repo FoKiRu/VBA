@@ -44,13 +44,14 @@ Sub SumUniqueCombinations()
     ' Вывод результатов на новый лист
     newWs.Cells(1, 1).Value = "Column B"
     newWs.Cells(1, 2).Value = "Column C"
-    newWs.Cells(1, 3).Value = "Sum of Column D"
+    newWs.Cells(1, 3).Value = "Sum of Column D (ЧЧ:ММ:СС)"
     
     i = 2
     For Each key In dict.keys
         newWs.Cells(i, 1).Value = Split(key, "|")(0)
         newWs.Cells(i, 2).Value = Split(key, "|")(1)
-        newWs.Cells(i, 3).Value = dict(key)
+        newWs.Cells(i, 3).Value = dict(key) / 86400 ' Преобразование секунд в дни
+        newWs.Cells(i, 3).NumberFormat = "[h]:mm:ss" ' Формат ЧЧ:ММ:СС
         i = i + 1
     Next key
     
@@ -60,4 +61,5 @@ Sub SumUniqueCombinations()
     ' Очистка памяти
     Set dict = Nothing
 End Sub
+
 
