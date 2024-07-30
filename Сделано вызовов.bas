@@ -29,6 +29,12 @@ Sub CountFilledCellsInColumnX()
     ' Массив для поиска строк "АО+ДУБЛЬ+НЕКОР.НОМЕР"
     aoDubliArray = Array("Дубль", "В недозвон", "Молчали", "Автоответчик-секретарь", "Некорректный номер")
     
+    ' Массив для поиска строк "отказов ЛПР"
+    LPRArray = Array("Отказ ЛПР: не подходит KPI", "Отказ ЛПР: не целевой", _
+                        "Отказ ЛПР: уже купили", "Отказ ЛПР: не интересовался", _
+                        "Отказ ЛПР: отложил на неопределенный срок", "Отказ ЛПР: был интерес, передумал", _
+                        "Отказ ЛПР: бросил трубку")
+
     ' Установите лист, на котором нужно подсчитать (измените "Sheet1" на имя вашего листа, если оно другое)
     Set ws = ThisWorkbook.Sheets("Sheet1")
     
@@ -42,6 +48,7 @@ Sub CountFilledCellsInColumnX()
     countSystem = 0
     countCallback = 0
     countAODubli = 0
+    countLPR = 0
     For i = 2 To lastRow
         cellValue = ws.Cells(i, col).Value
         If Not IsError(Application.Match(cellValue, systemArray, 0)) Then
@@ -52,6 +59,9 @@ Sub CountFilledCellsInColumnX()
         End If
         If Not IsError(Application.Match(cellValue, aoDubliArray, 0)) Then
             countAODubli = countAODubli + 1
+        End If
+        If Not IsError(Application.Match(cellValue, LPRArray, 0)) Then
+            countLPR = countLPR + 1
         End If
     Next i
     
@@ -71,5 +81,7 @@ Sub CountFilledCellsInColumnX()
     newWs.Cells(3, 2).Value = countCallback
     newWs.Cells(4, 1).Value = "АО+ДУБЛЬ+НЕКОР.НОМЕР"
     newWs.Cells(4, 2).Value = countAODubli
+    newWs.Cells(5, 1).Value = "Отказов ЛПР"
+    newWs.Cells(5, 2).Value = countLPR
 
 End Sub
