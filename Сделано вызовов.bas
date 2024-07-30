@@ -6,12 +6,15 @@ Sub CountFilledCellsInColumnX()
     Dim countSystem As Long
     Dim countCallback As Long
     Dim countAODubli As Long
+    Dim countLPR As Long
     Dim col As String
     Dim i As Long
     Dim cellValue As String
     Dim systemArray As Variant
     Dim callbackArray As Variant
     Dim aoDubliArray As Variant
+    Dim LPRArray As Variant
+    Dim LPRCounts() As Long
     
     col = "X"
     
@@ -31,10 +34,11 @@ Sub CountFilledCellsInColumnX()
     
     ' Массив для поиска строк "отказов ЛПР"
     LPRArray = Array("Отказ ЛПР: не подходит KPI", "Отказ ЛПР: не целевой", _
-                        "Отказ ЛПР: уже купили", "Отказ ЛПР: не интересовался", _
-                        "Отказ ЛПР: отложил на неопределенный срок", "Отказ ЛПР: был интерес, передумал", _
-                        "Отказ ЛПР: бросил трубку")
-
+                     "Отказ ЛПР: уже купили", "Отказ ЛПР: не интересовался", _
+                     "Отказ ЛПР: отложил на неопределенный срок", "Отказ ЛПР: был интерес, передумал", _
+                     "Отказ ЛПР: бросил трубку")
+    ReDim LPRCounts(1 To UBound(LPRArray) + 1)
+    
     ' Установите лист, на котором нужно подсчитать (измените "Sheet1" на имя вашего листа, если оно другое)
     Set ws = ThisWorkbook.Sheets("Sheet1")
     
@@ -60,9 +64,12 @@ Sub CountFilledCellsInColumnX()
         If Not IsError(Application.Match(cellValue, aoDubliArray, 0)) Then
             countAODubli = countAODubli + 1
         End If
-        If Not IsError(Application.Match(cellValue, LPRArray, 0)) Then
-            countLPR = countLPR + 1
-        End If
+        For j = 1 To UBound(LPRArray) + 1
+            If cellValue = LPRArray(j - 1) Then
+                LPRCounts(j) = LPRCounts(j) + 1
+                countLPR = countLPR + 1
+            End If
+        Next j
     Next i
     
     ' Добавить новый лист
@@ -73,15 +80,20 @@ Sub CountFilledCellsInColumnX()
     newWs.Move After:=ThisWorkbook.Sheets(ThisWorkbook.Sheets.Count)
     
     ' Записать результат на новый лист
-    newWs.Cells(1, 1).Value = "Сделано вызовов"
+    newWs.Cells(1, 1).Value = "Сделано вызовов:"
     newWs.Cells(1, 2).Value = countFilled
-    newWs.Cells(2, 1).Value = "Системных и сбросы"
+    newWs.Cells(2, 1).Value = "Системных и сбросы:"
     newWs.Cells(2, 2).Value = countSystem
     newWs.Cells(3, 1).Value = "Назначено перезвонов:"
     newWs.Cells(3, 2).Value = countCallback
-    newWs.Cells(4, 1).Value = "АО+ДУБЛЬ+НЕКОР.НОМЕР"
+    newWs.Cells(4, 1).Value = "АО+ДУБЛЬ+НЕКОР.НОМЕР:"
     newWs.Cells(4, 2).Value = countAODubli
-    newWs.Cells(5, 1).Value = "Отказов ЛПР"
+    newWs.Cells(5, 1).Value = "Отказов ЛПР: ОБЩИЕ"
     newWs.Cells(5, 2).Value = countLPR
-
+    
+    ' Записать результаты для каждого элемента массива LPRArray
+    For j = 1 To UBound(LPRArray) + 1
+        newWs.Cells(5 + j, 1).Value = LPRArray(j - 1)
+        newWs.Cells(5 + j, 2).Value = LPRCounts(j)
+    Next j
 End Sub
