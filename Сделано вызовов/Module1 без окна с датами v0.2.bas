@@ -1,4 +1,3 @@
-Attribute VB_Name = "Module1"
 Sub CountFilledCellsInColumnX()
     Dim ws As Worksheet
     Dim newWs As Worksheet

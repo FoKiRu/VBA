@@ -9,10 +9,8 @@ Sub CountFilledCellsInColumnX()
     Dim col As String
     Dim i As Long
     Dim cellValue As String
-
     Dim LPRArray As Variant
     Dim LPRCounts() As Long
-    
     Dim startDate As Date
     Dim endDate As Date
     Dim dateCol As String

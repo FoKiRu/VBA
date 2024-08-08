@@ -25,20 +25,20 @@ Sub SumUniqueCombinationsWithCounters()
     Set dictCount20Sec = CreateObject("Scripting.Dictionary")
     Set dictCountFillLead = CreateObject("Scripting.Dictionary")
     
-    ' Сбор уникальных комбинаций и сумм значений из столбца D и подсчет значений
+    ' Сбор уникальных комбинаций и сумм значений из столбца R и подсчет значений
     For i = 2 To lastRow ' Предполагается, что первая строка содержит заголовки
-        key = ws.Cells(i, 1).Value & "|" & ws.Cells(i, 2).Value & "|" & ws.Cells(i, 3).Value ' Столбцы A, B и C
+        key = ws.Cells(i, 1).Value & "|" & ws.Cells(i, 3).Value ' Столбцы A и C
         If Not dictSum.exists(key) Then
-            dictSum.Add key, ws.Cells(i, 4).Value ' Столбец D
-            dictCount1Sec.Add key, IIf(ws.Cells(i, 4).Value >= 1, 1, 0)
-            dictCount20Sec.Add key, IIf(ws.Cells(i, 4).Value >= 20, 1, 0)
+            dictSum.Add key, ws.Cells(i, 18).Value ' Столбец R
+            dictCount1Sec.Add key, IIf(ws.Cells(i, 18).Value >= 1, 1, 0)
+            dictCount20Sec.Add key, IIf(ws.Cells(i, 18).Value >= 20, 1, 0)
             dictCountFillLead.Add key, IIf(ws.Cells(i, 5).Value = "Заполнить лид", 1, 0) ' Столбец E
         Else
-            dictSum(key) = dictSum(key) + ws.Cells(i, 4).Value
-            If ws.Cells(i, 4).Value >= 1 Then
+            dictSum(key) = dictSum(key) + ws.Cells(i, 18).Value
+            If ws.Cells(i, 18).Value >= 1 Then
                 dictCount1Sec(key) = dictCount1Sec(key) + 1
             End If
-            If ws.Cells(i, 4).Value >= 20 Then
+            If ws.Cells(i, 18).Value >= 20 Then
                 dictCount20Sec(key) = dictCount20Sec(key) + 1
             End If
             If ws.Cells(i, 5).Value = "Заполнить лид" Then
@@ -53,28 +53,26 @@ Sub SumUniqueCombinationsWithCounters()
     
     ' Вывод результатов на новый лист
     newWs.Cells(1, 1).Value = "Column A"
-    newWs.Cells(1, 2).Value = "Column B"
-    newWs.Cells(1, 3).Value = "Column C"
-    newWs.Cells(1, 4).Value = "Sum of Column D (ЧЧ:ММ:СС)"
-    newWs.Cells(1, 5).Value = "Count >= 1 sec"
-    newWs.Cells(1, 6).Value = "Count >= 20 sec"
-    newWs.Cells(1, 7).Value = "Count 'Заполнить лид'"
+    newWs.Cells(1, 2).Value = "Column C"
+    newWs.Cells(1, 3).Value = "Sum of Column R (ЧЧ:ММ:СС)"
+    newWs.Cells(1, 4).Value = "Count >= 1 sec"
+    newWs.Cells(1, 5).Value = "Count >= 20 sec"
+    newWs.Cells(1, 6).Value = "Count 'Заполнить лид'"
     
     i = 2
     For Each key In dictSum.keys
         newWs.Cells(i, 1).Value = Split(key, "|")(0)
         newWs.Cells(i, 2).Value = Split(key, "|")(1)
-        newWs.Cells(i, 3).Value = Split(key, "|")(2)
-        newWs.Cells(i, 4).Value = dictSum(key) / 86400 ' Преобразование секунд в дни
-        newWs.Cells(i, 4).NumberFormat = "[h]:mm:ss" ' Формат ЧЧ:ММ:СС
-        newWs.Cells(i, 5).Value = dictCount1Sec(key)
-        newWs.Cells(i, 6).Value = dictCount20Sec(key)
-        newWs.Cells(i, 7).Value = dictCountFillLead(key)
+        newWs.Cells(i, 3).Value = dictSum(key) / 86400 ' Преобразование секунд в дни
+        newWs.Cells(i, 3).NumberFormat = "[h]:mm:ss" ' Формат ЧЧ:ММ:СС
+        newWs.Cells(i, 4).Value = dictCount1Sec(key)
+        newWs.Cells(i, 5).Value = dictCount20Sec(key)
+        newWs.Cells(i, 6).Value = dictCountFillLead(key)
         i = i + 1
     Next key
     
     ' Автоширина столбцов для удобства чтения
-    newWs.Columns("A:G").AutoFit
+    newWs.Columns("A:F").AutoFit
     
     ' Очистка памяти
     Set dictSum = Nothing
