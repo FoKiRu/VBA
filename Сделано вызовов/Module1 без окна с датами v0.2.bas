@@ -112,18 +112,20 @@ Sub CountFilledCellsInColumnX()
     newWs.Cells(6, 2).Value = countFilled
     newWs.Cells(7, 1).Value = "Системных не дозвонов и сбросов:"
     newWs.Cells(7, 2).Value = countSystem
-    newWs.Cells(8, 1).Value = "Назначено перезвонов:"
-    newWs.Cells(8, 2).Value = countCallback
-    newWs.Cells(9, 1).Value = "АО+ДУБЛЬ+НЕКОР.НОМЕР"
-    newWs.Cells(9, 2).Value = countAODubli
-    newWs.Cells(10, 1).Value = "Общее отказов ЛПР"
-    newWs.Cells(10, 2).Value = countLPR
+
+    newWs.Cells(9, 1).Value = "Назначено перезвонов:"
+    newWs.Cells(9, 2).Value = countCallback
+    newWs.Cells(10, 1).Value = "АО+ДУБЛЬ+НЕКОР.НОМЕР"
+    newWs.Cells(10, 2).Value = countAODubli
+    newWs.Cells(11, 1).Value = "Общее отказов ЛПР"
+    newWs.Cells(11, 2).Value = countLPR
+    newWs.Cells(12, 1).Value = "Из них"
     
     
     ' Записать результаты для каждого элемента массива LPRArray
     For j = 1 To UBound(LPRArray) + 1
-        newWs.Cells(10 + j, 1).Value = LPRArray(j - 1)
-        newWs.Cells(10 + j, 2).Value = LPRCounts(j)
+        newWs.Cells(12 + j, 1).Value = LPRArray(j - 1)
+        newWs.Cells(12 + j, 2).Value = LPRCounts(j)
     Next j
     
 '    newWs.Cells(10, 1).Value = "не подходит KPI:"
