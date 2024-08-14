@@ -74,15 +74,17 @@ Sub SumUniqueCombinationsWithCounters()
     
     i = 2
     For Each key In dictSum.keys
-        newWs.Cells(i, 1).Value = Split(key, "|")(0)
-        newWs.Cells(i, 2).Value = Split(key, "|")(1)
-        newWs.Cells(i, 3).Value = Split(key, "|")(2)
-        newWs.Cells(i, 4).Value = dictSum(key) / 86400 ' Преобразование секунд в дни
-        newWs.Cells(i, 4).NumberFormat = "[h]:mm:ss" ' Формат ЧЧ:ММ:СС
-        newWs.Cells(i, 5).Value = dictCount1Sec(key)
-        newWs.Cells(i, 6).Value = dictCount20Sec(key)
-        newWs.Cells(i, 7).Value = dictCountFillLead(key)
-        i = i + 1
+        If dictSum(key) > 0 Then ' Проверка, что значение в столбце D не равно 0
+            newWs.Cells(i, 1).Value = Split(key, "|")(0)
+            newWs.Cells(i, 2).Value = Split(key, "|")(1)
+            newWs.Cells(i, 3).Value = Split(key, "|")(2)
+            newWs.Cells(i, 4).Value = dictSum(key) / 86400 ' Преобразование секунд в дни
+            newWs.Cells(i, 4).NumberFormat = "[h]:mm:ss" ' Формат ЧЧ:ММ:СС
+            newWs.Cells(i, 5).Value = dictCount1Sec(key)
+            newWs.Cells(i, 6).Value = dictCount20Sec(key)
+            newWs.Cells(i, 7).Value = dictCountFillLead(key)
+            i = i + 1
+        End If
     Next key
     
     ' Автоширина столбцов для удобства чтения
