@@ -90,6 +90,9 @@ Sub SumUniqueCombinationsWithCounters()
     ' Автоширина столбцов для удобства чтения
     newWs.Columns("A:G").AutoFit
     
+    ' Применение автофильтра
+    newWs.Range("A1:G1").AutoFilter
+    
     ' Очистка памяти
     Set dictSum = Nothing
     Set dictCount1Sec = Nothing
