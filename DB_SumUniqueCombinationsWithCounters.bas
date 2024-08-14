@@ -1,4 +1,16 @@
 Sub SumUniqueCombinationsWithCounters()
+
+' Модуль для удаление лишних столбцов
+    Columns("B:B").Select
+    Selection.Delete Shift:=xlToLeft
+    Columns("D:T").Select
+    Selection.Delete Shift:=xlToLeft
+    Columns("E:E").Select
+    Selection.Delete Shift:=xlToLeft
+    Columns("G:H").Select
+    Selection.Delete Shift:=xlToLeft
+    Range("L19").Select
+    
     Dim ws As Worksheet
     Dim newWs As Worksheet
     Dim lastRow As Long
