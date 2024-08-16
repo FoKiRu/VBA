@@ -1,16 +1,4 @@
 Sub SumUniqueCombinationsWithCounters()
-
-' Модуль для удаление лишних столбцов
-    Columns("B:B").Select
-    Selection.Delete Shift:=xlToLeft
-    Columns("D:T").Select
-    Selection.Delete Shift:=xlToLeft
-    Columns("E:E").Select
-    Selection.Delete Shift:=xlToLeft
-    Columns("G:H").Select
-    Selection.Delete Shift:=xlToLeft
-    Range("L19").Select
-    
     Dim ws As Worksheet
     Dim newWs As Worksheet
     Dim lastRow As Long
@@ -29,7 +17,7 @@ Sub SumUniqueCombinationsWithCounters()
     End If
     
     ' Определение последней строки
-    lastRow = ws.Cells(ws.Rows.Count, 2).End(xlUp).Row ' Столбец B
+    lastRow = ws.Cells(ws.Rows.Count, 2).End(xlUp).Row ' Столбец C
     
     ' Создание словарей для хранения уникальных комбинаций и их сумм и счетчиков
     Set dictSum = CreateObject("Scripting.Dictionary")
@@ -37,23 +25,23 @@ Sub SumUniqueCombinationsWithCounters()
     Set dictCount20Sec = CreateObject("Scripting.Dictionary")
     Set dictCountFillLead = CreateObject("Scripting.Dictionary")
     
-    ' Сбор уникальных комбинаций и сумм значений из столбца D и подсчет значений
+    ' Сбор уникальных комбинаций и сумм значений из столбца V и подсчет значений
     For i = 2 To lastRow ' Предполагается, что первая строка содержит заголовки
-        key = ws.Cells(i, 1).Value & "|" & ws.Cells(i, 2).Value & "|" & ws.Cells(i, 3).Value ' Столбцы A, B и C
+        key = ws.Cells(i, 1).Value & "|" & ws.Cells(i, 3).Value & "|" & ws.Cells(i, 4).Value ' Столбцы A, B и C
         If Not dictSum.exists(key) Then
-            dictSum.Add key, ws.Cells(i, 4).Value ' Столбец D
-            dictCount1Sec.Add key, IIf(ws.Cells(i, 4).Value >= 1, 1, 0)
-            dictCount20Sec.Add key, IIf(ws.Cells(i, 4).Value >= 20, 1, 0)
-            dictCountFillLead.Add key, IIf(ws.Cells(i, 5).Value = "Заполнить лид", 1, 0) ' Столбец E
+            dictSum.Add key, ws.Cells(i, 22).Value ' Столбец V
+            dictCount1Sec.Add key, IIf(ws.Cells(i, 22).Value >= 1, 1, 0)
+            dictCount20Sec.Add key, IIf(ws.Cells(i, 22).Value >= 20, 1, 0)
+            dictCountFillLead.Add key, IIf(ws.Cells(i, 24).Value = "Заполнить лид", 1, 0) ' Столбец E
         Else
-            dictSum(key) = dictSum(key) + ws.Cells(i, 4).Value
-            If ws.Cells(i, 4).Value >= 1 Then
+            dictSum(key) = dictSum(key) + ws.Cells(i, 22).Value
+            If ws.Cells(i, 22).Value >= 1 Then
                 dictCount1Sec(key) = dictCount1Sec(key) + 1
             End If
-            If ws.Cells(i, 4).Value >= 20 Then
+            If ws.Cells(i, 22).Value >= 20 Then
                 dictCount20Sec(key) = dictCount20Sec(key) + 1
             End If
-            If ws.Cells(i, 5).Value = "Заполнить лид" Then
+            If ws.Cells(i, 24).Value = "Заполнить лид" Then
                 dictCountFillLead(key) = dictCountFillLead(key) + 1
             End If
         End If
