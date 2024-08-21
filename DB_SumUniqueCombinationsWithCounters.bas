@@ -32,7 +32,7 @@ Sub SumUniqueCombinationsWithCounters()
             dictSum.Add key, ws.Cells(i, 22).Value ' Столбец V
             dictCount1Sec.Add key, IIf(ws.Cells(i, 22).Value >= 1, 1, 0)
             dictCount20Sec.Add key, IIf(ws.Cells(i, 22).Value >= 20, 1, 0)
-            dictCountFillLead.Add key, IIf(ws.Cells(i, 24).Value = "Заполнить лид", 1, 0) ' Столбец E
+            dictCountFillLead.Add key, IIf(ws.Cells(i, 24).Value = "Заполнить лид" Or ws.Cells(i, 24).Value = "Лид не принят ОКК", 1, 0) ' Столбец T
         Else
             dictSum(key) = dictSum(key) + ws.Cells(i, 22).Value
             If ws.Cells(i, 22).Value >= 1 Then
@@ -41,7 +41,7 @@ Sub SumUniqueCombinationsWithCounters()
             If ws.Cells(i, 22).Value >= 20 Then
                 dictCount20Sec(key) = dictCount20Sec(key) + 1
             End If
-            If ws.Cells(i, 24).Value = "Заполнить лид" Then
+            If ws.Cells(i, 24).Value = "Заполнить лид" Or ws.Cells(i, 24).Value = "Лид не принят ОКК" Then
                 dictCountFillLead(key) = dictCountFillLead(key) + 1
             End If
         End If
