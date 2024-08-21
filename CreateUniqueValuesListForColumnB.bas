@@ -1,4 +1,7 @@
     ' Создать Уникальный Список Значений Для Столбца B
+    ' Продолжение в макросе ApplyFilterAndRemoveFromUniqueValuesB.bas
+    ' part 1/2
+    ' v0.1
 Sub CreateUniqueValuesListForColumnB()
     Dim ws As Worksheet
     Dim newWs As Worksheet

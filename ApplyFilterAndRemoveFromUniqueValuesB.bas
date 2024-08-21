@@ -1,4 +1,8 @@
 ' Применить фильтр и удалить из уникальных значений B на листе UniqueValuesB
+' Завершающий модуль для макроса CreateUniqueValuesListForColumnB.bas
+' part 2/2
+' v0.2
+' Создан part 3 v0.3, который объединяет в себе два модуля
 Sub ApplyFilterAndRemoveFromUniqueValuesB()
     Dim ws As Worksheet
     Dim uniqueValuesWs As Worksheet
