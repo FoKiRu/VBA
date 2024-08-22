@@ -41,9 +41,6 @@ Sub CreateOrApplyFilterAndRemoveFromUniqueValuesB()
             
             ' Удаление первой строки на листе UniqueValuesB
             uniqueValuesWs.Rows(1).Delete Shift:=xlUp
-            
-            ' Сообщение о применении фильтра
-            MsgBox "Фильтр применен по значению '" & filterValue & "', и оно было удалено из листа 'UniqueValuesB'.", vbInformation
         End If
     Else
         ' Если листа UniqueValuesB нет, создаем его и заполняем уникальными значениями
