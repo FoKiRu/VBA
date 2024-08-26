@@ -114,33 +114,34 @@ Sub CountFilledCellsInColumnX()
     ' Записать результат на новый лист
     newWs.Cells(1, 1).Value = "Проект:"
     newWs.Cells(1, 2).Value = scenarioName ' Записываем найденное значение "Сценарий"
+    newWs.Cells(2, 1).Value = "Период:"
+    newWs.Cells(2, 2).Value = minDateFormatted & " → " & maxDateFormatted ' Записываем период
     
-    newWs.Cells(2, 1).Value = "Оператор:"
-    newWs.Cells(3, 1).Value = "Кол-во проектов на операторе:"
-    newWs.Cells(4, 1).Value = "Период:"
-    newWs.Cells(4, 2).Value = minDateFormatted & " → " & maxDateFormatted ' Записываем период
+    newWs.Cells(5, 1).Value = "Оператор:"
+    newWs.Cells(6, 1).Value = "Кол-во проектов на операторе:"
+
     
-    newWs.Cells(5, 1).Value = "Новых контактов за период"
-    newWs.Cells(6, 1).Value = "Сделано вызовов:"
-    newWs.Cells(6, 2).Value = countFilled & " (" & Format((countFilled / countFilled) * 100, "0.00") & "%)"
+    newWs.Cells(11, 1).Value = "Новых контактов за период"
+    newWs.Cells(12, 1).Value = "Сделано вызовов:"
+    newWs.Cells(12, 2).Value = countFilled & " (" & Format((countFilled / countFilled) * 100, "0.00") & "%)"
     
-    newWs.Cells(7, 1).Value = "Системных не дозвонов и сбросов:"
-    newWs.Cells(7, 2).Value = countSystem & " (" & Format((countSystem / countFilled) * 100, "0.00") & "%)"
+    newWs.Cells(13, 1).Value = "Системных не дозвонов и сбросов:"
+    newWs.Cells(13, 2).Value = countSystem & " (" & Format((countSystem / countFilled) * 100, "0.00") & "%)"
     
-    newWs.Cells(9, 1).Value = "Назначено перезвонов:"
-    newWs.Cells(9, 2).Value = countCallback & " (" & Format((countCallback / countFilled) * 100, "0.00") & "%)"
+    newWs.Cells(15, 1).Value = "Назначено перезвонов:"
+    newWs.Cells(15, 2).Value = countCallback & " (" & Format((countCallback / countFilled) * 100, "0.00") & "%)"
     
-    newWs.Cells(10, 1).Value = "АО+ДУБЛЬ+НЕКОР.НОМЕР:"
-    newWs.Cells(10, 2).Value = countAODubli & " (" & Format((countAODubli / countFilled) * 100, "0.00") & "%)"
+    newWs.Cells(16, 1).Value = "АО+ДУБЛЬ+НЕКОР.НОМЕР:"
+    newWs.Cells(16, 2).Value = countAODubli & " (" & Format((countAODubli / countFilled) * 100, "0.00") & "%)"
     
-    newWs.Cells(11, 1).Value = "Общее отказов ЛПР:"
-    newWs.Cells(11, 2).Value = countLPR & " (" & Format((countLPR / countFilled) * 100, "0.00") & "%)"
+    newWs.Cells(17, 1).Value = "Общее отказов ЛПР:"
+    newWs.Cells(17, 2).Value = countLPR & " (" & Format((countLPR / countFilled) * 100, "0.00") & "%)"
     
-    newWs.Cells(12, 1).Value = "Из них:"
+    newWs.Cells(18, 1).Value = "Из них:"
     
     ' Записать результаты для каждого элемента массива LPRArray
     For j = 1 To UBound(LPRArray) + 1
-        newWs.Cells(12 + j, 1).Value = LPRArray(j - 1)
-        newWs.Cells(12 + j, 2).Value = LPRCounts(j) & " (" & Format((LPRCounts(j) / countFilled) * 100, "0.00") & "%)"
+        newWs.Cells(18 + j, 1).Value = LPRArray(j - 1)
+        newWs.Cells(18 + j, 2).Value = LPRCounts(j) & " (" & Format((LPRCounts(j) / countFilled) * 100, "0.00") & "%)"
     Next j
 End Sub
