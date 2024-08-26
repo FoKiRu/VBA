@@ -16,6 +16,10 @@ Sub CountFilledCellsInColumnX()
     Dim LPRArray As Variant
     Dim LPRCounts() As Long
     Dim scenarioName As String
+    Dim minDate As Date
+    Dim maxDate As Date
+    Dim minDateFormatted As String
+    Dim maxDateFormatted As String
     
     ' Задаем столбец для поиска данных
     col = "X"
@@ -50,11 +54,9 @@ Sub CountFilledCellsInColumnX()
     ' Подсчитать количество заполненных ячеек в столбце X
     countFilled = Application.WorksheetFunction.CountA(ws.Range(col & "2:" & col & lastRow))
     
-    ' Подсчитать количество строк по заданным массивам
-    countSystem = 0
-    countCallback = 0
-    countAODubli = 0
-    countLPR = 0
+    ' Инициализация дат
+    minDate = ws.Cells(2, "A").Value
+    maxDate = ws.Cells(2, "A").Value
     
     ' Найти значение "Сценарий" в столбце D
     scenarioName = ""
@@ -65,6 +67,22 @@ Sub CountFilledCellsInColumnX()
             Exit For
         End If
     Next i
+    
+    ' Поиск минимальной и максимальной даты в столбце A
+    For i = 2 To lastRow
+        If IsDate(ws.Cells(i, "A").Value) Then
+            If ws.Cells(i, "A").Value < minDate Then
+                minDate = ws.Cells(i, "A").Value
+            End If
+            If ws.Cells(i, "A").Value > maxDate Then
+                maxDate = ws.Cells(i, "A").Value
+            End If
+        End If
+    Next i
+    
+    ' Форматирование дат
+    minDateFormatted = Format(minDate, "dd.mm")
+    maxDateFormatted = Format(maxDate, "dd.mm.yy")
     
     ' Поиск совпадений в столбце X и подсчёт по массивам
     For i = 2 To lastRow
@@ -100,6 +118,8 @@ Sub CountFilledCellsInColumnX()
     newWs.Cells(2, 1).Value = "Оператор:"
     newWs.Cells(3, 1).Value = "Кол-во проектов на операторе:"
     newWs.Cells(4, 1).Value = "Период:"
+    newWs.Cells(4, 2).Value = minDateFormatted & " → " & maxDateFormatted ' Записываем период
+    
     newWs.Cells(5, 1).Value = "Новых контактов за период"
     newWs.Cells(6, 1).Value = "Сделано вызовов:"
     newWs.Cells(6, 2).Value = countFilled & " (" & Format((countFilled / countFilled) * 100, "0.00") & "%)"
