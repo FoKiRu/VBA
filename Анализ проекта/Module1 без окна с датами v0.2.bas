@@ -8,13 +8,14 @@ Sub CountFilledCellsInColumnX()
     Dim countAODubli As Long
     Dim countLPR As Long
     Dim col As String
-    Dim i As Long
+    Dim i As Long, j As Long
     Dim cellValue As String
     Dim systemArray As Variant
     Dim callbackArray As Variant
     Dim aoDubliArray As Variant
     Dim LPRArray As Variant
     Dim LPRCounts() As Long
+    Dim scenarioName As String
     
     ' Задаем столбец для поиска данных
     col = "X"
@@ -54,6 +55,18 @@ Sub CountFilledCellsInColumnX()
     countCallback = 0
     countAODubli = 0
     countLPR = 0
+    
+    ' Найти значение "Сценарий" в столбце D
+    scenarioName = ""
+    For i = 2 To lastRow
+        cellValue = ws.Cells(i, "D").Value
+        If cellValue <> "" Then
+            scenarioName = cellValue
+            Exit For
+        End If
+    Next i
+    
+    ' Поиск совпадений в столбце X и подсчёт по массивам
     For i = 2 To lastRow
         cellValue = ws.Cells(i, col).Value
         If Not IsError(Application.Match(cellValue, systemArray, 0)) Then
@@ -82,6 +95,8 @@ Sub CountFilledCellsInColumnX()
     
     ' Записать результат на новый лист
     newWs.Cells(1, 1).Value = "Проект:"
+    newWs.Cells(1, 2).Value = scenarioName ' Записываем найденное значение "Сценарий"
+    
     newWs.Cells(2, 1).Value = "Оператор:"
     newWs.Cells(3, 1).Value = "Кол-во проектов на операторе:"
     newWs.Cells(4, 1).Value = "Период:"
@@ -109,5 +124,3 @@ Sub CountFilledCellsInColumnX()
         newWs.Cells(12 + j, 2).Value = LPRCounts(j) & " (" & Format((LPRCounts(j) / countFilled) * 100, "0.00") & "%)"
     Next j
 End Sub
-
-
